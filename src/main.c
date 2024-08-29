@@ -12,7 +12,7 @@
 #include <zephyr/kernel.h>
 
 #include "freebot.h"
-#define FB_BENCH_SPEED 100
+#define FB_BENCH_SPEED 25
 
 int main(void)
 {

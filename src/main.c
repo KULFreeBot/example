@@ -114,15 +114,27 @@ void motor_measure_demo(void)
 }
 
 void motor_speed_demo(void) {
-    const int STEPS = 511;
+    const int STEPS = 32;
     for(int i = 0; i <= STEPS; i++) {
         fb_rotate_cw(FB_DEMO_SPEED * i / STEPS);
-        k_sleep(K_MSEC(10));
+        k_sleep(K_MSEC(100));
+        fb_get_motor_speed(&motor_speeds);
+        LOG_DBG("{%d rpm, %d rpm, %d rpm, %d rpm}",
+            motor_speeds.front_left,
+            motor_speeds.front_right,
+            motor_speeds.back_left,
+            motor_speeds.back_right);
+
     }
-    k_sleep(K_MSEC(100));
     for(int i = STEPS; i >= 0; i--) {
         fb_rotate_cw(FB_DEMO_SPEED * i / STEPS);
-        k_sleep(K_MSEC(10));
+        k_sleep(K_MSEC(100));
+        fb_get_motor_speed(&motor_speeds);
+        LOG_DBG("{%d rpm, %d rpm, %d rpm, %d rpm}",
+            motor_speeds.front_left,
+            motor_speeds.front_right,
+            motor_speeds.back_left,
+            motor_speeds.back_right);
     }
 }
 

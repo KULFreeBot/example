@@ -140,13 +140,14 @@ int main(void)
     fb_init();
 
     for (;;)
-    {
-        // Enable bot-to-bot charging port
+    {   
+        // Enable bot-to-bot charging port when waiting
         fb_b2b_enable();
-
+        
         // Flash both leds in out of sync to indicate ready
         fb_set_led(D15);
         fb_clear_led(D16);
+
         for (;;)
         {
             k_sleep(K_MSEC(100));
@@ -164,7 +165,7 @@ int main(void)
         fb_clear_led(D15);
         fb_clear_led(D16);
 
-        // Disable bot-to-bot charging port
+        // Disable bot-to-bot charging port during operation
         fb_b2b_disable();
 
         pwr_measure_demo();

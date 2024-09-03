@@ -113,40 +113,36 @@ void motor_measure_demo(void)
             motor_angles.back_right);
 }
 
-void motor_speed_demo(void) {
-    const int STEPS = 32;
-    for(int i = 0; i <= STEPS; i++) {
-        fb_rotate_cw(FB_DEMO_SPEED * i / STEPS);
-        k_sleep(K_MSEC(100));
-        fb_get_motor_speed(&motor_speeds);
-        LOG_DBG("{%d rpm, %d rpm, %d rpm, %d rpm}",
-            motor_speeds.front_left,
-            motor_speeds.front_right,
-            motor_speeds.back_left,
-            motor_speeds.back_right);
-
+void motor_speed_demo(void)
+{
+    const int STEPS = 10;
+    for (int i = 0; i <= STEPS; i++)
+    {
+        fb_rotate_cw(100 * i / STEPS);
+        LOG_DBG("Target speed: %d", 100 * i / STEPS);
+        for (int j = 0; j < 10; j++)
+        {
+            k_sleep(K_MSEC(100));
+            fb_get_motor_speed(&motor_speeds);
+            LOG_DBG("{%d rpm, %d rpm, %d rpm, %d rpm}",
+                    motor_speeds.front_left,
+                    motor_speeds.front_right,
+                    motor_speeds.back_left,
+                    motor_speeds.back_right);
+        }
     }
-    for(int i = STEPS; i >= 0; i--) {
-        fb_rotate_cw(FB_DEMO_SPEED * i / STEPS);
-        k_sleep(K_MSEC(100));
-        fb_get_motor_speed(&motor_speeds);
-        LOG_DBG("{%d rpm, %d rpm, %d rpm, %d rpm}",
-            motor_speeds.front_left,
-            motor_speeds.front_right,
-            motor_speeds.back_left,
-            motor_speeds.back_right);
-    }
+    fb_stop();
 }
 
 int main(void)
 {
     LOG_DBG("Starting Robot");
     fb_init();
-    
+
     for (;;)
-    {   
-        // Disable bot-to-bot charging port
-        fb_b2b_disable();
+    {
+        // Enable bot-to-bot charging port
+        fb_b2b_enable();
 
         // Flash both leds in out of sync to indicate ready
         fb_set_led(D15);
@@ -168,8 +164,8 @@ int main(void)
         fb_clear_led(D15);
         fb_clear_led(D16);
 
-        // Enable bot-to-bot charging port
-        fb_b2b_enable();
+        // Disable bot-to-bot charging port
+        fb_b2b_disable();
 
         pwr_measure_demo();
         motor_measure_demo();

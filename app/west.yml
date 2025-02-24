@@ -22,9 +22,8 @@ manifest:
         # Capbot's zephyr library
         - name: capbot-zephyr-library
           url: https://gitlab.kuleuven.be/distrinet/taskforces/nes/freebot/zephyr-library
-          revision: zephyr-module # TODO: checkout specific version once stable
+          revision: v2.0
           path: deps/modules/capbot/lib
 
     self:
         path: app
-
